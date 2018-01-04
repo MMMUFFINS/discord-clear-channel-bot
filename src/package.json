@@ -1,0 +1,22 @@
+{
+  "name": "discord-clear-channel-bot",
+  "version": "1.0.0",
+  "description": "Simple bot to clear messages in a Discord channel",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MMMUFFINS/discord-clear-channel-bot.git"
+  },
+  "author": "MMMUFFINS",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MMMUFFINS/discord-clear-channel-bot/issues"
+  },
+  "homepage": "https://github.com/MMMUFFINS/discord-clear-channel-bot#readme",
+  "dependencies": {
+    "discord.js": "^11.2.1"
+  }
+}
