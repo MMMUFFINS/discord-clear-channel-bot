@@ -30,12 +30,16 @@ client.on('message', message => {
                 let msgArray = messages.array();
                 let msgsForDeletion = [];
                 // ignore the first message
-                for (let i = 0; i < msgArray.length - 1; i++) {
-                    msgsForDeletion.unshift(msgArray[i]);
+                for (let i = 0; i < msgArray.length; i++) {
+                    if (!msgArray[i].pinned) msgsForDeletion.unshift(msgArray[i]);
                 }
 
-                if (msgsForDeletion.length > 1) {
+                if (msgsForDeletion.length >= 2) {
                     return currentChannel.bulkDelete(msgsForDeletion, false);
+                }
+
+                else {
+                    return msgsForDeletion[0].delete();
                 }
             })
             .catch(err => {
