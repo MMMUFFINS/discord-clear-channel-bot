@@ -19,46 +19,43 @@ client.on('message', message => {
 
     let reply;
 
-    if (message.content === '!deletethis') {
-        let currentChannel = message.channel;
+    let canManageMessages = message.member.hasPermission('MANAGE_MESSAGES');
 
-        currentChannel.fetchMessages()
-        .then(messages => {
-            return currentChannel.bulkDelete(messages, true);
-        })
-        .then(deletedMessages => {
-            message.channel.send('I deleted everything! Tehe~ :heart:');
-        })
-        .catch(err => {
-            message.channel.send('error! ' + err.message);
-        })
+    if (message.content === '!delet') {
+        if (canManageMessages) {
+            let currentChannel = message.channel;
+
+            currentChannel.fetchMessages()
+            .then(messages => {
+                let msgArray = messages.array();
+                let msgsForDeletion = [];
+                // ignore the first message
+                for (let i = 0; i < msgArray.length - 1; i++) {
+                    msgsForDeletion.unshift(msgArray[i]);
+                }
+
+                if (msgsForDeletion.length > 1) {
+                    return currentChannel.bulkDelete(msgsForDeletion, false);
+                }
+            })
+            .catch(err => {
+                message.channel.send('error! ' + err.message);
+            });
+        }
+        else {
+            message.channel.send(
+                'fuck off you don\'t have permissions to manage messages here.', 
+                {
+                    reply: message.author
+                }
+            );
+        }
+        
     }
     else {
         // message.channel.send('uh huh...');
         return;
     }
-    
-    
-    // send back the message and any associated properties lmao
-    // let canManageMessages = message.member.hasPermission('MANAGE_MESSAGES');
-    // if (canManageMessages) {
-    //     reply = 'You can manage messages!';
-    // }
-    // else {
-    //     reply = 'You can\'t manage messages!';
-    // }
-    
-
-    
-
-    // message.delete(2000)
-    // .then((console.log('deleted message: ' + message.content)))
-    // .catch((err) => console.log(err))
-
-    // // reply = message.channel.messages.array();
-    // reply = Math.random();
-
-    
 });
 
 // program start
