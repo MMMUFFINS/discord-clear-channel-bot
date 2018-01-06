@@ -19,47 +19,46 @@ client.on('message', message => {
 
     let reply;
 
-    let canManageMessages = message.member.hasPermission('MANAGE_MESSAGES');
+    // message.member is undefined for PMs
+    if (message.member) {
+        let canManageMessages = message.member.hasPermission('MANAGE_MESSAGES');
 
-    if (message.content === '!delet') {
-        if (canManageMessages) {
-            let currentChannel = message.channel;
-
-            currentChannel.fetchMessages()
-            .then(messages => {
-                let msgArray = messages.array();
-                let msgsForDeletion = [];
-                // ignore the first message
-                for (let i = 0; i < msgArray.length; i++) {
-                    if (!msgArray[i].pinned) msgsForDeletion.unshift(msgArray[i]);
-                }
-
-                if (msgsForDeletion.length >= 2) {
-                    return currentChannel.bulkDelete(msgsForDeletion, false);
-                }
-
-                else {
-                    return msgsForDeletion[0].delete();
-                }
-            })
-            .catch(err => {
-                message.channel.send('error! ' + err.message);
-            });
+        if (message.content === '!delet') {
+            if (canManageMessages) {
+                let currentChannel = message.channel;
+    
+                currentChannel.fetchMessages()
+                .then(messages => {
+                    let msgArray = messages.array();
+                    let msgsForDeletion = [];
+                    // ignore the first message
+                    for (let i = 0; i < msgArray.length; i++) {
+                        if (!msgArray[i].pinned) msgsForDeletion.unshift(msgArray[i]);
+                    }
+    
+                    if (msgsForDeletion.length >= 2) {
+                        return currentChannel.bulkDelete(msgsForDeletion, false);
+                    }
+    
+                    else {
+                        return msgsForDeletion[0].delete();
+                    }
+                })
+                .catch(err => {
+                    message.channel.send('error! ' + err.message);
+                });
+            }
+            else {
+                message.channel.send(
+                    'fuck off you don\'t have permissions to manage messages here.', 
+                    {
+                        reply: message.author
+                    }
+                );
+            }
         }
-        else {
-            message.channel.send(
-                'fuck off you don\'t have permissions to manage messages here.', 
-                {
-                    reply: message.author
-                }
-            );
-        }
-        
     }
-    else {
-        // message.channel.send('uh huh...');
-        return;
-    }
+
 });
 
 // program start
