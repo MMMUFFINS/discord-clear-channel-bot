@@ -74,6 +74,7 @@ module.exports = (() => {
                         continuousDelet()
                         .catch(err => {
                             message.channel.send('Error! ' + err.message);
+                            this.deletMode = false;
                         });
                     }
                     else {
@@ -84,11 +85,8 @@ module.exports = (() => {
                             }
                         );
                     }
-                  
                 }
             }
-    
-            
         }
     }
     
