@@ -55,7 +55,7 @@ module.exports = (() => {
                                     })
                                     .then(() => {
                                         // TODO: add a delay or something so we're not throttled by discord API
-                                        return continuousDelet();   // will only return a resolved promise once 
+                                        return continuousDelet();   // will only return a resolved promise once no more messages are available
                                     })
                                     .then(() => {
                                         return resolve();   // when no more messages are available to delete
