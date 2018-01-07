@@ -7,6 +7,7 @@ module.exports = (() => {
         }
     
         handleMessage (message) {
+            // PMs won't have a message.member property
             if (message.member && message.content === '!delet') {
                 let canManageMessages = message.member.hasPermission('MANAGE_MESSAGES');
 
@@ -15,6 +16,7 @@ module.exports = (() => {
                         this.deletMode = true;
                         let currentChannel = message.channel;
                         
+                        // recursive function
                         let continuousDelet = () => {
                             if (this.deletMode === true) {
                                 return new Promise((resolve, reject) => {
@@ -36,7 +38,6 @@ module.exports = (() => {
                                                 return Promise.reject();
                                             });
                                         }
-                            
                                         else if (msgsForDeletion.length === 1) {
                                             return msgsForDeletion[0].delete()
                                             .then(msg => {
@@ -46,7 +47,6 @@ module.exports = (() => {
                                                 return Promise.reject(err);
                                             });
                                         }
-
                                         else {
                                             // done, no more
                                             this.deletMode = false;
@@ -54,15 +54,15 @@ module.exports = (() => {
                                         }
                                     })
                                     .then(() => {
+                                        // TODO: add a delay or something so we're not throttled by discord API
                                         return continuousDelet();   // will only return a resolved promise once 
                                     })
                                     .then(() => {
-                                        return resolve();
+                                        return resolve();   // when no more messages are available to delete
                                     })
                                     .catch(err => {
                                         return reject(err);
                                     });
-                                    
                                 })
                             }
                             else {
@@ -74,7 +74,7 @@ module.exports = (() => {
                         continuousDelet()
                         .catch(err => {
                             message.channel.send('Error! ' + err.message);
-                            this.deletMode = false;
+                            this.deletMode = false; // need this reset here too
                         });
                     }
                     else {
