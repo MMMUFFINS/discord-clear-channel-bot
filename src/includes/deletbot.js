@@ -16,9 +16,7 @@ module.exports = (() => {
                         let currentChannel = message.channel;
                         
                         let continuousDelet = () => {
-                            console.log('continuousDelet')
                             if (this.deletMode === true) {
-                                console.log('still in delet mode')
                                 return new Promise((resolve, reject) => {
                                     currentChannel.fetchMessages()
                                     .then(messages => {
@@ -56,7 +54,6 @@ module.exports = (() => {
                                         }
                                     })
                                     .then(() => {
-                                        console.log('going to call continuousDelet again')
                                         return continuousDelet();   // will only return a resolved promise once 
                                     })
                                     .then(() => {
@@ -69,16 +66,12 @@ module.exports = (() => {
                                 })
                             }
                             else {
-                                console.log('exiting delet mode')
                                 return Promise.resolve();
                             }
                         };
 
                         // start recursion
                         continuousDelet()
-                        .then(() => {
-                            console.log('I deleted everything')
-                        })
                         .catch(err => {
                             message.channel.send('Error! ' + err.message);
                         });
