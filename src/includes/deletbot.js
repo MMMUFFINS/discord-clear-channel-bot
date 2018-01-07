@@ -8,6 +8,8 @@ module.exports = (() => {
     
         handleMessage (message) {
             // PMs won't have a message.member property
+            // during a mass delete, other messages containing the keyword may arrive
+            // ignore them if currently purging to avoid duplicate calls to discord
             if (message.member 
                 && message.content === '!delet' 
                 && this.deletMode === false) {
