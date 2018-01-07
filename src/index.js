@@ -19,8 +19,6 @@ client.on('message', message => {
     if (message.author.bot) return;
 
     deletbot.handleMessage(message);
-    // message.member is undefined for PMs
-
 });
 
 // program start
