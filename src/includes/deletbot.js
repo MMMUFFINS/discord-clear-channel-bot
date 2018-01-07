@@ -35,7 +35,7 @@ module.exports = (() => {
                                                 return Promise.resolve();
                                             })
                                             .catch(err => {
-                                                return Promise.reject();
+                                                return Promise.reject(err);
                                             });
                                         }
                                         else if (msgsForDeletion.length === 1) {
