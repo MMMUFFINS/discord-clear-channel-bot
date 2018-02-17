@@ -2,6 +2,6 @@ version: '2'
 services:
   deletbot:
       build: .
-      image: mmmuffins/discord-clear-channel-bot:1.0.0
+      image: mmmuffins/discord-clear-channel-bot:1.1.0
       volumes:
           - ./config.json:/usr/src/app/config.json
