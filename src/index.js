@@ -11,6 +11,11 @@ const deletbot = require('./includes/deletbot.js');
 
 client.on('ready', () => {
     console.log('I am ready!');
+    client.user.setPresence({
+        game: {
+            name: '!delet'
+        }
+    });
 });
 
 // Create an event listener for messages
