@@ -26,5 +26,9 @@ client.on('message', message => {
     deletbot.handleMessage(message);
 });
 
+client.on('error', err => {
+    console.error(err);
+})
+
 // program start
 client.login(discordToken);
