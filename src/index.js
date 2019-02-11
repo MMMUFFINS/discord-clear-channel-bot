@@ -10,7 +10,7 @@ const client = new Discord.Client();
 const deletbot = require('./includes/deletbot.js');
 
 client.on('ready', () => {
-    console.log('I am ready!');
+    console.log('deletbot v 1.2.0 am ready!');
     client.user.setPresence({
         game: {
             name: '!delet'
@@ -23,7 +23,7 @@ client.on('message', message => {
     // ignore bots, including itself! THIS IS IMPORTANT
     if (message.author.bot) return;
 
-    deletbot.handleMessage(message);
+    deletbot.HandleMessage(message);
 });
 
 client.on('error', err => {
