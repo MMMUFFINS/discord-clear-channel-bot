@@ -1,4 +1,4 @@
 #!/bin/bash
 docker-compose down --rmi all 
-git pull
-docker-compose up -d
+git pull origin master
+docker-compose build --force-rm; docker-compose up -d
