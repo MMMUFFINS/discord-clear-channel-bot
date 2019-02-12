@@ -2,6 +2,7 @@
 
 module.exports = (() => {
     let debugMode = false;
+    let delayBetweenBatches = 5000;
 
     let debugLog = (message) => {
         if (debugMode) {
@@ -55,16 +56,15 @@ module.exports = (() => {
             if (this.deletMode === true) {
                 debugLog("deleting NOW")
                 return new Promise((resolve, reject) => {
-                    currentChannel.fetchMessages()
+                    currentChannel.fetchMessages({
+                        limit: 5
+                    })
                     .then(messages => {
                         let msgArray = messages.array();
-                        debugLog("msgArray:")
-                        debugLog(msgArray)
                         let indivDeletPromises = [];
                         
                         for (let i = 0; i < msgArray.length; i++) {
                             let someMsg = msgArray[i];
-                            debugLog(someMsg)
 
                             // ignore pinned messages
                             if (someMsg.pinned) continue;
@@ -94,8 +94,9 @@ module.exports = (() => {
                             return Promise.resolve();
                         }
                     }).then(() => {
+                        debugLog("Waiting " + delayBetweenBatches + " ms...")
                         // small delay to avoid getting throttled/revoked
-                        return delayPromise(1000);
+                        return delayPromise(delayBetweenBatches);
                     })
                     .then(() => {
                         debugLog("Finished a batch, calling continuousDelet again")

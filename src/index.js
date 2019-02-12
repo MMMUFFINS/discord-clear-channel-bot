@@ -10,7 +10,7 @@ const client = new Discord.Client();
 const deletbot = require('./includes/deletbot.js');
 
 client.on('ready', () => {
-    console.log('deletbot v 1.2.1 am ready!');
+    console.log('deletbot v 1.2.2 am ready!');
     client.user.setPresence({
         game: {
             name: '!delet'
