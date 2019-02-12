@@ -1,6 +1,22 @@
 'use strict';
 
 module.exports = (() => {
+    let debugMode = false;
+
+    let debugLog = (message) => {
+        if (debugMode) {
+            console.log(message);
+        }
+    };
+
+    let delayPromise = (delayMs) => {
+        return new Promise(resolve => {
+            setTimeout(() => {
+               resolve() 
+            }, delayMs);
+        });
+    };
+
     class Deletbot {
         constructor () {
             this.deletMode = false;
@@ -37,18 +53,18 @@ module.exports = (() => {
 
         continuousDelet (currentChannel) {
             if (this.deletMode === true) {
-                console.log("deleting NOW")
+                debugLog("deleting NOW")
                 return new Promise((resolve, reject) => {
                     currentChannel.fetchMessages()
                     .then(messages => {
                         let msgArray = messages.array();
-                        console.log("msgArray:")
-                        console.log(msgArray)
+                        debugLog("msgArray:")
+                        debugLog(msgArray)
                         let indivDeletPromises = [];
                         
                         for (let i = 0; i < msgArray.length; i++) {
                             let someMsg = msgArray[i];
-                            console.log(someMsg)
+                            debugLog(someMsg)
 
                             // ignore pinned messages
                             if (someMsg.pinned) continue;
@@ -64,31 +80,34 @@ module.exports = (() => {
                         }
             
                         if (indivDeletPromises.length > 0) {
-                            console.log("Found some messages to delete")
+                            debugLog("Found some messages to delete")
                             return Promise.all(indivDeletPromises)
                             .catch(err => {
-                                console.log("hit an error while individually deleting")
+                                debugLog("hit an error while individually deleting")
                                 return Promise.reject(err);
                             });
                         }
                         else {
                             // done, no more
-                            console.log("No more messages in current batch")
+                            debugLog("No more messages in current batch")
                             this.deletMode = false;
                             return Promise.resolve();
                         }
+                    }).then(() => {
+                        // small delay to avoid getting throttled/revoked
+                        return delayPromise(1000);
                     })
                     .then(() => {
-                        console.log("Finished a batch, calling continuousDelet again")
+                        debugLog("Finished a batch, calling continuousDelet again")
                         // TODO: add a delay or something so we're not throttled by discord API
                         return this.continuousDelet(currentChannel);   // will only return a resolved promise once no more messages are available
                     })
                     .then(() => {
-                        console.log("No more message available to delete")
+                        debugLog("No more message available to delete")
                         return resolve();   // when no more messages are available to delete
                     })
                     .catch(err => {
-                        console.log("We hit an error, cap'n")
+                        debugLog("We hit an error, cap'n")
                         return reject(err);
                     });
                 });
