@@ -45,7 +45,7 @@ module.exports = (() => {
                 }
                 else {
                     message.channel.send(
-                        'fuck off you don\'t have permissions to manage messages here.', 
+                        'you don\'t have permissions to manage messages here.', 
                         { reply: message.author }
                     );
                 }
