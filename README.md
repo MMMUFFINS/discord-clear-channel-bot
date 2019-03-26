@@ -42,7 +42,7 @@ Currently there is no way to stop it other than kicking it out of the channel.
 
 ## 1.2.3
 
-Fixed some error messages.
+* Fixed some error messages.
 
 ## 1.2.2
 
