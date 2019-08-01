@@ -40,6 +40,10 @@ Currently there is no way to stop it other than kicking it out of the channel.
 
 # Changelog
 
+## 1.2.3
+
+* Fixed some error messages.
+
 ## 1.2.2
 
 * Increased delay.
