@@ -72,7 +72,7 @@ module.exports = (() => {
                             indivDeletPromises.push(
                                 someMsg.delete()
                                 .catch(err => {
-                                    return Promise.reject(new Error("Msg ID " + indivMsg.id + ", " + err.message))
+                                    return Promise.reject(new Error("Msg ID " + someMsg.id + ", " + err.message))
                                 })
                             );
                             

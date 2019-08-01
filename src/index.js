@@ -2,6 +2,7 @@
 
 const Discord = require('discord.js');
 const fs = require('fs');
+const node_pkg = require('./package.json');
 
 let config = JSON.parse(fs.readFileSync('./config.json'));
 let discordToken = config.secrets.discord;
@@ -10,7 +11,7 @@ const client = new Discord.Client();
 const deletbot = require('./includes/deletbot.js');
 
 client.on('ready', () => {
-    console.log('deletbot v 1.2.2 am ready!');
+    console.log('deletbot v', node_pkg.version, 'am ready!');
     client.user.setPresence({
         game: {
             name: '!delet'
